@@ -2,6 +2,7 @@ package io.javabrains.tinder_ai_backend.conversations;
 import java.util.*;
 import java.time.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,19 @@ public class ConversationController {
 			);
 			conversationRepository.save(conversation);
             return conversation;
+   }
+
+   @GetMapping("/conversations/{conversationId}")
+  
+   public Conversation getConversation(
+    @PathVariable String conversationId
+   )
+   {
+    return  conversationRepository.findById(conversationId).
+              orElseThrow(()-> new ResponseStatusException(
+              HttpStatus.NOT_FOUND,"Unable to find conversation ID "+ conversationId));
+              
+
    }
 
    @PostMapping("/conversations/{conversationId}")
